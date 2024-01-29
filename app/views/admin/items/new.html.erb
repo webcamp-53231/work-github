@@ -1,0 +1,37 @@
+<div class="container p-3">
+ <div class="row">
+  <div class="col">
+   <h1>商品新規登録</h1>
+   <%= form_with model: @item,url:admin_items_path, local:true do |f| %>
+   <%= render "admin/shared/error_messages", resource: @item %> 
+    <table>
+     <tr>
+     <th>商品画像</th>
+     <td></td>
+     <td><%= f.file_field :image, accept: "image/*" %> </td>
+     </tr>
+  
+     <tr>
+     <th>商品名</th>
+     <td></td>
+     <td><%= f.text_field :name, placeholder:"商品名" %></td>
+     </tr>
+  
+     <tr>
+     <th>商品説明</th>
+     <td></td>
+     <td><%= f.text_area :introduction, rows:"5", placeholder:"ここに説明文を記述"%></td>
+     </tr>
+
+     <tr>
+     <th>税抜き価格</th>
+     <td></td>
+     <td> <%= f.number_field :price,placeholder:"0000" %>円</td>
+     </tr>
+    </table>
+  
+    <%= f.submit '新規登録',class: "mt-5 btn btn-outline-success"%>
+   <% end %>
+  </div>
+ </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="container p-3">
+ <%= flash[:notice] %>
+ <div class="row">
+ <h1>ショッピングカート</h1>
+ </div>
+ <div class="col"> 
+   <table class="table">
+    <thead>
+    <tr>
+    <th>商品写真</th>
+    <th>商品名</th>
+    <th>価格(税込み)</th>
+    <th>個数</th>
+    <th>小計</th>
+    <th><%=link_to "カートを空にする", cart_items_destroy_all_path, method: :delete, class:"btn btn-outline-danger"%></th>
+    </tr>
+    </thead>
+    <% if @cart_items.count != 0 %>      
+     <% @cart_items.each do |cart_item| %>
+     <tr>
+     <th><%= image_tag cart_item.item.get_image(100,100) %></th>
+     <th><%= cart_item.item.name %></th>
+     <th><%= number_to_currency(cart_item.tax_price,precision: 0) %></th>
+     <th><%= form_with model: cart_item, method: :patch do |f| %>
+         <%= f.select :amount, *[1..10] %>
+         <%= f.hidden_field :item_id, :value => cart_item.item.id %>
+         <%= f.submit '数量を変更', class: "btn btn-outline-success" %> 
+         <% end %>
+     </th>
+     <th><%= number_to_currency(cart_item.line_total,precision: 0) %></th>
+     <th><%=link_to "削除",cart_item_path(cart_item) ,method: :delete, class:"btn btn-outline-danger" %></th>
+    </tr>
+    <% end %>
+    </table> 
+ </div>
+ <br>
+ <h3>合計金額</h3>
+ <h5><%= number_to_currency(@total,precision: 0) %></h5>
+ <br>
+ <br>
+ <%=link_to "注文情報入力に進む", new_order_path, class:"btn btn-outline-success" %>
+ <br>
+ <br>
+ <br>
+ <% end %> 
+</div>
+
+
+
+
+
+
+

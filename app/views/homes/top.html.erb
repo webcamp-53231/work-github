@@ -1,0 +1,51 @@
+<div class="container p-3">
+ <div class="row">
+  <div class="col"> 
+   <% if admin_signed_in? %>
+    <h1>注文履歴一覧</h1>
+     <table class="table">
+      <tr>
+      <td>注文ID</td>
+      <td>注文日</td>
+      <td>購入者</td>
+      <td>注文個数</td>
+      <td>支払金額</td>
+      </tr>
+      <% @orders.reverse_each do |order| %>
+      <tr>
+      <td><%= order.id %></td>
+      <td><%= link_to admin_order_path(order.id) do %><%= order.created_at.strftime('%Y/%m/%d') %><% end %></td>
+      <td><%= order.name %></td>
+      <td>
+       <ul class="list-unstyled">
+         <% order.order_details.each do |order_detail|  %>
+           <li><%= order_detail.item.name %>=<%= order_detail.amount %>個</li>
+         <% end %>
+       </ul>
+      </td>
+      <td><%= number_to_currency(order.total_payment) %></td>
+      </tr>
+      <% end %>
+     </table>
+ 
+   <% else %>
+   <h1>新着商品一覧(4件)</h1>
+    <div class="d-flex flex-wrap">
+     <% @items.limit(4).reverse_each do |item| %>
+     <div class="mr-5">
+      <%= link_to item_path(item) do %><%= image_tag item.get_image(200,150) %><% end %>
+      <h4><%= link_to item_path(item) do %><%= item.name %><% end %></h4>
+      <h5><%= number_to_currency(item.price* 1.1,precision: 0) %>(税込)</h5>
+     </div>
+     <% end %>
+    </div>
+   <% end %>
+  </div>
+ </div>
+</div>
+
+
+
+
+    
+

@@ -1,0 +1,16 @@
+<div class="container p-3">
+ <div class="row">
+  <div class="col">
+   <h1>商品一覧</h1>
+   <div class="d-flex flex-wrap">
+    <% @items.each do |item| %>
+    <div class="mr-5">
+     <%= link_to item_path(item) do %><%= image_tag item.get_image(200,150) %><% end %>
+     <h4><%= link_to item_path(item) do %><%= item.name %><% end %></h4>
+     <h5><%= number_to_currency(item.price* 1.1,precision: 0) %>(税込)</h5>
+    </div>
+    <% end %>
+   </div>
+  </div>
+ </div>
+</div>
